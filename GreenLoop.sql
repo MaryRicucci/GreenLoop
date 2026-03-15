@@ -1,7 +1,7 @@
 create database GreenLoop;
 
 create table GreenLoop.Utenti (
-	id_Utente int primary key,
+	id_Utente int primary key AUTO_INCREMENT ,
     nome varchar(100),
     cognome varchar(100),
     email varchar(255) unique,
@@ -12,7 +12,7 @@ create table GreenLoop.Utenti (
 );
 
 create table GreenLoop.Missioni (
-	id_Missione int primary key,
+	id_Missione int primary key AUTO_INCREMENT,
 	titolo varchar(100) unique,
     descrizione text not null,
     punti int,
@@ -21,9 +21,9 @@ create table GreenLoop.Missioni (
 );
 
 create table GreenLoop.Missioni_completate (
-	id_Completato int primary key,
+	id_Completato int primary key auto_increment,
     id_Utente int,
-    foreign key (id_Utente) references Utenti(id_Utente),
+    foreign key (id_Utente) references Utenti(id_Utente) ON DELETE CASCADE,
     id_Missione int,
     foreign key (id_Missione) references Missioni(id_Missione),
     foto varchar(255),
@@ -33,7 +33,7 @@ create table GreenLoop.Missioni_completate (
 );
 
 create table GreenLoop.Premi (
-	id_Premio int primary key,
+	id_Premio int primary key AUTO_INCREMENT,
     nome varchar(100),
     descrizione varchar(255),
     costo int not null,
@@ -41,7 +41,7 @@ create table GreenLoop.Premi (
 );
 
 create table GreenLoop.Premi_Riscattati (
-	id_Riscattato int primary key,
+	id_Riscattato int primary key AUTO_INCREMENT,
     id_Utente int,
     foreign key (id_Utente) references Utenti(id_Utente),
     id_Premio int,
@@ -50,7 +50,7 @@ create table GreenLoop.Premi_Riscattati (
 );
 
 create table GreenLoop.Pagamenti (
-	id_Pagamento int primary key,
+	id_Pagamento int primary key AUTO_INCREMENT,
     id_Utente int,
     foreign key (id_Utente) references Utenti(id_Utente),
     provider enum ('paypal','satispay'),
@@ -61,8 +61,8 @@ create table GreenLoop.Pagamenti (
 );
 
 create table GreenLoop.Registro_attività (
-	id_Log int primary key,
-    id_Utente int,
+	id_Log int primary key AUTO_INCREMENT,
+    id_Utente int null,
     foreign key (id_Utente) references Utenti(id_Utente),
     azione varchar(255),
     dettagli text,
@@ -70,7 +70,7 @@ create table GreenLoop.Registro_attività (
 );
 
 create table GreenLoop.Aziende (
-	id_Azienda int primary key,
+	id_Azienda int primary key AUTO_INCREMENT,
     nome varchar(100) not null,
     descrizione text,
     logo_url varchar(255),
