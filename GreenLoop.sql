@@ -8,7 +8,8 @@ create table GreenLoop.Utenti (
     pw varchar(255),
     id_google varchar(255),
     punti int,
-    data_registrazione timestamp
+    data_registrazione timestamp,
+	ruolo default user
 );
 
 create table GreenLoop.Missioni (
