@@ -52,7 +52,21 @@ app.get("/me",async(req,res)=>{
     const data = await response.json();
     res.json(data);
 });
-
+//POST logout
+app.post("/logout",async(req,res)=>{
+    const response = await fetch(base+"/logout.php",{
+        method : "POST ",
+        headers : {
+            cookie : req.headers.cookie || ""
+        }
+    });
+    const data = await response.json();
+    const setCookie = response.headers.get("set-cookie");
+    if(setCookie) {
+        res.setHeader("set-cookie",setCookie);
+    }
+    res.json(data);
+})
 app.listen(3000,()=>{
     console.log("Connessione aperta sulla porta 3000");
 });
