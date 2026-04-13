@@ -1,4 +1,5 @@
 <?php
+//PREPARE Ok
 session_start();
 if(!isset($_SESSION["id_Utente"])){
     echo (json_encode([
@@ -19,9 +20,12 @@ if(!isset($_SESSION["id_Utente"])){
     if($conn -> connect_error){
         die ("Connessione fallita");
     }
-    $query = "SELECT * from Utenti WHERE id = '$id' ";
-    $risultato = $conn -> query($query);
-    if((!$risultato)||($risultato->num_rows===0)){
+    $query = "SELECT * from Utenti WHERE id_Utente = ? ";
+    $template = $conn -> prepare($query);
+    $template -> bind_param("i",$id);
+    $template -> execute();
+    $risultato = $template -> get_result();
+    if($risultato->num_rows===0){
         echo (json_encode([
             "success" : false ,
             "message" : "Utente non trovato"
@@ -31,7 +35,9 @@ if(!isset($_SESSION["id_Utente"])){
     $utente = $risultato -> fetch_assoc();
     echo (json_encode([
         "success" : true ,
-        "message" : $utente 
+        "data" : $utente 
     ]));
+    
+    $conn -> close();
 
 ?>

@@ -14,4 +14,5 @@ echo json_encode([
     "success" : true ,
     "message" : "Logout effettuato"
 ]);
+$conn -> close();
 ?>

@@ -1,4 +1,5 @@
 <?php
+//PREPARE Ok
 $email = $_POST["email"];
 $pw = $_POST["pw"];
 
@@ -11,13 +12,14 @@ $conn = new mysqli ($host,$user,$pass,$db);
 if ($conn -> connect_error) {
     die ("Connessione fallita");
 }
-$pw = 
-$query = "SELECT * from Utenti WHERE email = '$email' ";
+$query = "SELECT * from Utenti WHERE email = ? ";
+$template = $conn -> prepare($query);
+$template -> bind_param("s",$email);
+$template -> execute();
+$risultato  = $template -> get_result();
 
-$risultato  = $conn -> query($query);
-
-if ($risultato) {
-    $row = $risultato => fetch_assoc();
+if ($risultato->num_rows>0) {
+    $row = $risultato -> fetch_assoc();
     $password = $row["pw"];
     session_start();
     if (password_verify($pw,$password)){
@@ -30,7 +32,7 @@ if ($risultato) {
     }
     else {
         echo json_encode([
-            "success" => false ;
+            "success" => false ,
             "message" => "Password errata"
         ]);
         exit ;
@@ -42,5 +44,6 @@ else {
         "message" => "email non trovata"
     ]))
 }
+$conn -> close();
 
 ?>
