@@ -3,8 +3,8 @@
 session_start();
 if(!isset($_SESSION["id_Utente"])){
     echo json_encode([
-        "success" : false ,
-        "message" : "Sessione scaduta"
+        "success" => false ,
+        "message" => "Sessione scaduta"
     ]);
 }
 $id = $_SESSION["id_Utente"];
@@ -24,14 +24,14 @@ $template -> execute();
 $risultato = $template -> get_result();
 if(!isset($risultato)||($risultato-> num_rows===0)){
     echo json_encode([
-        "success" : false ,
-        "message" : "Missioni dell'utente non trovate"
+        "success" => false ,
+        "message" => "Missioni dell'utente non trovate"
     ]);
 }
 $missioni = $risultato -> fetch_all(MYSQLI_ASSOC); //Prende tutte le righe di risultato con i suoi campi
 echo json_encode([
-    "success" : true ,
-    "message" : $missioni
+    "success" => true ,
+    "missioni" => $missioni
 ]);
 $conn -> close();
 ?>

@@ -3,8 +3,8 @@
 session_start();
 if(!isset($_SESSION["id_Utente"])){
     echo (json_encode([
-        "success" : false ,
-        "message" : "Non autenticato"
+        "success" => false ,
+        "message" => "Non autenticato"
     ]
     ));
     exit ;
@@ -27,15 +27,15 @@ if(!isset($_SESSION["id_Utente"])){
     $risultato = $template -> get_result();
     if($risultato->num_rows===0){
         echo (json_encode([
-            "success" : false ,
-            "message" : "Utente non trovato"
+            "success" => false ,
+            "message" => "Utente non trovato"
         ]));
         exit;
     }
     $utente = $risultato -> fetch_assoc();
     echo (json_encode([
-        "success" : true ,
-        "data" : $utente 
+        "success" => true ,
+        "data" => $utente 
     ]));
     
     $conn -> close();
