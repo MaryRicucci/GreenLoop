@@ -128,6 +128,17 @@ app.post("/premi/riscatta",async(req,res)=>{
     const data = await response.json();
     res.json(data);
 });
+//Get /storico
+app.get("/storico",async (req,res)=>{
+    const response = await fetch (base+"/getStorico.php",{
+        method : "GET" ,
+        header : {
+            cookie : req.headers.cookie || " "
+        }
+    })
+    const data = await response.json();
+    res.json(data);
+})
 //POST logout
 app.post("/logout",async(req,res)=>{
     const response = await fetch(base+"/authentication/logout.php",{

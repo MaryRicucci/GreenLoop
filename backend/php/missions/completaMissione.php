@@ -67,7 +67,7 @@ if(!move_uploaded_file($foto["tmp_name"],$filepath)){
 }
 //Percorso da salvare nel DB
 $fotoDB = "/uploads/missioni/".$filename;
-
+//Guardo quanti punti assegnare
 $query = "SELECT punti from Missioni WHERE id_Missione = ?";
 //Prepare
 //Assegna punti
@@ -83,6 +83,7 @@ if (!isset($punti)){
     ]);
     exit ;
 }
+//Aggiorno punti utente
 $query = "UPDATE Utenti set punti = ? WHERE id_Utente = ?";
 $template = $conn -> prepare($query);
 $template -> bind_param("ii",$punti["punti"],$id);
