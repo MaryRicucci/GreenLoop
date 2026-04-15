@@ -12,7 +12,7 @@ $idMissione = $_POST["id_Missione"];
 $id = $_SESSION["id_Utente"];
 
 //Controllo il file
-if (!isset($_FILES("foto"))){
+if (!isset($_FILES["foto"])){
     json_encode([
         "success" => false ,
         "message" => "Nessun file trovato" 
@@ -55,7 +55,7 @@ $uploadDir =__DIR__. "/uploads/missioni/";
 if (!file_exists($uploadDir)){
     mkdir($uploadDir,0777,true);
 }
-$ext = pathinfo($foto["name"],PATHINFO_EXTENSION());
+$ext = pathinfo($foto["name"],PATHINFO_EXTENSION);
 $filename = "missione_".$id."_".time()."".$ext ;
 $filepath = $uploadDir.$filename;
 if(!move_uploaded_file($foto["tmp_name"],$filepath)){
@@ -76,22 +76,45 @@ $template -> bind_param("i",$idMissione);
 $template -> execute();
 $punti = $template -> get_result();
 $punti = $punti -> fetch_assoc();
-if (!isset($punti)){
+if (!isset($punti["punti"])){
     echo json_encode([
         "success" => false ,
         "message" => "Non è stato possibile trovare i punti Missione"
     ]);
     exit ;
 }
+$query = "INSERT INTO Missioni_completate (id_Utente,id_Missione,foto,stato,data_invio)
+VALUES (?,?,?,'pending',NOW())";
+$template = $conn -> prepare($query);
+$template -> bind_param("iis",$id,$idMissione,$fotoDB);
+if(!($template -> execute())){
+    echo json_encode([
+        "success" => "false",
+        "message" => "Missione non aggiunta a missioni_completate"
+    ]);
+    exit ;
+};
+$dettagli = "Completamento missione con id=".$idMissione." da utente=".$id;
+$query = "INSERT into Registro_attività (id_Utente,azione,dettagli,data)
+value (?,'Completamento missione', ?, NOW()";
+$template = $conn -> prepare($query);
+$template -> bind_param("is",$id,$dettagli);
+if(!($template -> execute())){
+    echo json_encode([
+        "success" => "false" ,
+        "message" => "Non è stato possibile aggiungere log"
+    ]);
+    exit ;
+}
 //Aggiorno punti utente
-$query = "UPDATE Utenti set punti = ? WHERE id_Utente = ?";
+$query = "UPDATE Utenti set punti = + ? WHERE id_Utente = ?";
 $template = $conn -> prepare($query);
 $template -> bind_param("ii",$punti["punti"],$id);
 if($template -> execute()){
     echo json_encode([
-        "success" : true,
-        "message" : "Prove della missione caricate con successo",
-        "punti" : $punti
+        "success" => true,
+        "message"=>"Prove della missione caricate con successo",
+        "punti" => $punti["punti"]
     ]);
 }
 $conn -> close();
