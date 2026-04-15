@@ -1,3 +1,3 @@
 Autenticazione funzionante - completato
 Flusso missioni - completato
-Flusso premi - in corso 
+Flusso premi - completato
