@@ -8,11 +8,51 @@ const multer = require ("multer");
 const upload = multer();
 const formData = require("form-data");
 const base = "http://localhost/GreenLoop/backend/php";
-//Mancano i middleware
+//ELIMINARE LA CARTELLA MIDDLEWARE
+//Middleware
 app.use(cors({
     origin : "http://localhost:3000",
     credentials : true 
 }));
+//Input pericolosi
+app.use((req,res,next)=>{
+    const sanitaze = (value) => {
+        if (typeof value === "string"){
+            return value 
+                       .replace(/<script.*?>.*?</script>/gi, "")
+                       .replace(/[<>]/g, "")
+                       .trim();
+    }
+        return value ;
+    };
+    for (const key of req.body) {
+      req.body[key] = sanitaze(req.body[key]);
+    }
+    next();
+});
+//Validazione body
+app.use((req,res,next)=>{
+    if (req.method === "POST" && !req.body) {
+        return res.json({
+            success : false ,
+            message : "Body mancante o non valido"
+        });
+    next();
+});
+import { rateLimit} from 'express-rate-limit' ;
+//Rate limiter
+const limiter = rateLimit({
+    windowMs : 20*60*1000 ,
+    limit : 3 , 
+    message : {
+        success : false ,
+        message : "Troppe richieste. Riprova più tardi" } ,
+    standardHeaders : true ,
+    legacyHeaders: false ,
+});  
+app.use("/login" , limiter);
+app.use("/pagamenti/crea", limiter);
+app.use("/missioni/completa", limiter);
 //Route handler
 
 //POST register
@@ -138,7 +178,19 @@ app.get("/storico",async (req,res)=>{
     })
     const data = await response.json();
     res.json(data);
-})
+});
+//POST /pagamenti crea
+app.post("/pagamenti/crea",async(req,res)=>{
+    const response = await fetch(base+"/payments/CreaPagamento.php",{
+        method : "POST" ,
+        headers : {
+            "Content-Type" : "application/x-www-form-urlencoded" ,
+            cookie : req.headers.cookie || "" 
+        },
+        body : new URLSearchParams(req.body)};
+   const data = await response.json();
+    res.json(data);
+});
 //POST logout
 app.post("/logout",async(req,res)=>{
     const response = await fetch(base+"/authentication/logout.php",{
@@ -153,7 +205,7 @@ app.post("/logout",async(req,res)=>{
         res.setHeader("set-cookie",setCookie);
     }
     res.json(data);
-})
+});
 app.listen(3000,()=>{
     console.log("Connessione aperta sulla porta 3000");
 });
