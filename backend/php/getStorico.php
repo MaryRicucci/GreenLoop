@@ -1,4 +1,5 @@
 <?php
+//Prepare Ok
 session_start();
 if(!isset($_SESSION["id_Utente"])){
     echo json_encode([

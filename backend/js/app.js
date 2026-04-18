@@ -14,18 +14,33 @@ app.use(cors({
     origin : "http://localhost:3000",
     credentials : true 
 }));
+app.use((req,res,next)=>{
+    const publicRoutes = [
+        "/login" , "/register"
+    ];
+    if(publicRoutes.includes(req.path)){
+        return next();
+    }
+    if (!req.headers.cookie){
+        return res.json({
+            success : false ,
+            message : "Devi effettuare il login"
+        });
+    }
+});
+
 //Input pericolosi
 app.use((req,res,next)=>{
     const sanitaze = (value) => {
         if (typeof value === "string"){
             return value 
-                       .replace(/<script.*?>.*?</script>/gi, "")
+                       .replace(/<script.*?>.*?<\/script>/gi, "")
                        .replace(/[<>]/g, "")
                        .trim();
     }
         return value ;
     };
-    for (const key of req.body) {
+    for (const key in req.body) {
       req.body[key] = sanitaze(req.body[key]);
     }
     next();
@@ -37,6 +52,7 @@ app.use((req,res,next)=>{
             success : false ,
             message : "Body mancante o non valido"
         });
+    }    
     next();
 });
 import { rateLimit} from 'express-rate-limit' ;
@@ -53,6 +69,32 @@ const limiter = rateLimit({
 app.use("/login" , limiter);
 app.use("/pagamenti/crea", limiter);
 app.use("/missioni/completa", limiter);
+app.use("/missioni",(req,res,next)=>{
+    if(!req.headers.cookie){
+        return res.json({
+            success : false ,
+            message : "Non sei autenticato"
+        });
+    }
+    next();
+});
+app.use("/premi",(req,res,next)=>{
+    if(!req.headers.cookie){
+        return res.json({
+            success : false ,
+            message : "Non sei autenticato"
+        });
+    }
+    next();
+});
+app.use("/storico",(req,res,next)=>{
+        if(!req.headers.cookie){
+            return res.json({success : false ,
+            message : "Non sei autenticato"
+        });
+    }
+    next();
+});
 //Route handler
 
 //POST register
@@ -181,16 +223,46 @@ app.get("/storico",async (req,res)=>{
 });
 //POST /pagamenti crea
 app.post("/pagamenti/crea",async(req,res)=>{
-    const response = await fetch(base+"/payments/CreaPagamento.php",{
+    const response = await fetch(base+"/payments/creaPagamento.php",{
         method : "POST" ,
         headers : {
             "Content-Type" : "application/x-www-form-urlencoded" ,
             cookie : req.headers.cookie || "" 
         },
-        body : new URLSearchParams(req.body)};
+        body : new URLSearchParams(req.body)
+    });
    const data = await response.json();
     res.json(data);
 });
+//POST /pagamenti/verifica
+app.post("/pagamenti/verifica",async(req,res)=>{
+    try{
+    if (!req.body.id_Pagamento){
+        return res.json({
+            success: false ,
+            message : "ID pagamento mancante"
+        });
+    }
+    const response = await fetch(base+"/payments/verificaPagamento.php",{
+        method: "POST",
+        headers : {
+            "Content-Type" : "application/x-www-form-urlencoded",
+            cookie : req.headers.cookie || ""
+        },
+        body : new URLSearchParams({
+            id_Pagamento : req.body.id_Pagamento
+        })
+    });
+    const data = await response.json();
+    return res.json(data);
+}catch(error){
+    console.error("Errore verifica pagamento: ", error);
+    res.json({
+        success : false ,
+        message : "Errore del server durante la verifica del pagamento"
+    })
+}
+})
 //POST logout
 app.post("/logout",async(req,res)=>{
     const response = await fetch(base+"/authentication/logout.php",{
