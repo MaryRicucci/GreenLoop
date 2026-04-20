@@ -1,13 +1,17 @@
-const express = require ('express');
-const app = express ();
-const cookieParser = require ('cookie-parser');
-const cors = require("cors");
+import express from "express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import multer from "multer";
+import FormData from "form-data";
+import rateLimit from "express-rate-limit";
+
+const app = express();
+const upload = multer();
+const base = "http://localhost/GreenLoop/backend/php";
+
 app.use(cookieParser());
 app.use(express.json());
-const multer = require ("multer");
-const upload = multer();
-const formData = require("form-data");
-const base = "http://localhost/GreenLoop/backend/php";
+app.use(express.urlencoded({extended: true}));
 //ELIMINARE LA CARTELLA MIDDLEWARE
 //Middleware
 app.use(cors({
@@ -47,7 +51,7 @@ app.use((req,res,next)=>{
 });
 //Validazione body
 app.use((req,res,next)=>{
-    if (req.method === "POST" && !req.body) {
+    if (req.method === "POST" && Object.keys(req.body).length===0) {
         return res.json({
             success : false ,
             message : "Body mancante o non valido"
@@ -55,7 +59,6 @@ app.use((req,res,next)=>{
     }    
     next();
 });
-import { rateLimit} from 'express-rate-limit' ;
 //Rate limiter
 const limiter = rateLimit({
     windowMs : 20*60*1000 ,

@@ -10,7 +10,7 @@ $pw = "";
 $user="root";
 $host="localhost";
 
-if (!isset($nome,$cognome,$email,$password)){
+if (isset($nome,$cognome,$email,$password)){
    $conn = new mysqli ($host,$user,$pw,$db);
    if($conn->connect_error){
     die("Connessione fallita");
