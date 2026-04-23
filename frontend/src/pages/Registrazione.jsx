@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 
-export default function Login() {
+export default function Registrazione() {
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
+  const [pw2, setPw2] = useState("");
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { login } = useAuth();
 
-  function validateEmail(email) {
+  function validaEmail(email) {
     return /\S+@\S+\.\S+/.test(email);
   }
 
@@ -19,25 +19,31 @@ export default function Login() {
     setError("");
 
     // VALIDAZIONE
-    if (!email || !pw) {
+    if (!nome || !email || !pw || !pw2) {
       setError("Compila tutti i campi");
       return;
     }
 
-    if (!validateEmail(email)) {
+    if (!validaEmail(email)) {
       setError("Email non valida");
+      return;
+    }
+
+    if (pw !== pw2) {
+      setError("Le password non coincidono");
       return;
     }
 
     // CHIAMATA POST
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/register", {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         body: new URLSearchParams({
+          nome,
           email,
           password: pw
         })
@@ -46,14 +52,12 @@ export default function Login() {
       const data = await response.json();
 
       if (!data.success) {
-        setError(data.message || "Credenziali errate");
+        setError(data.message || "Errore durante la registrazione");
         return;
       }
 
-      // LOGIN OK
-      login(data.user);
-
-      navigate("/dashboard");
+      // REGISTRAZIONE OK → REDIRECT
+      navigate("/login");
 
     } catch (err) {
       setError("Errore di connessione");
@@ -62,9 +66,16 @@ export default function Login() {
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>Registrazione</h1>
 
       <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Nome"
+          value={nome}
+          onChange={e => setNome(e.target.value)}
+        />
+
         <input
           type="email"
           placeholder="Email"
@@ -79,9 +90,16 @@ export default function Login() {
           onChange={e => setPw(e.target.value)}
         />
 
+        <input
+          type="password"
+          placeholder="Conferma password"
+          value={pw2}
+          onChange={e => setPw2(e.target.value)}
+        />
+
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <button type="submit">Accedi</button>
+        <button type="submit">Registrati</button>
       </form>
     </div>
   );
