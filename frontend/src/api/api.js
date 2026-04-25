@@ -47,6 +47,10 @@ export function getMissioni() {
   return request("/missioni");
 }
 
+export function getMissioni(id){
+  return request('/missioni/${id}');
+}
+
 // PREMI
 export function getPremi() {
   return request("/premi");

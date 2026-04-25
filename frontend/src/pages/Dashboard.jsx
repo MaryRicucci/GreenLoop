@@ -19,7 +19,7 @@ export default function Dashboard() {
           logout(); // sessione scaduta → logout automatico
           return;
         }
-
+8
         const data = await res.json();
         setDati(data.user);
         setLoading(false);

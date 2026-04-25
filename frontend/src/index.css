@@ -113,3 +113,13 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+.mission-card{
+  background : #fff ;
+  padding : 15px ;
+  border-radius: 8px ;
+  box-shadow : 0 2px 5px rgba(0,0,0,0.1);
+}
+.container p {
+  margin : 10px 0;
+  line-height : 1.4;
+}
