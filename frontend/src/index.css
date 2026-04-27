@@ -123,3 +123,10 @@ code {
   margin : 10px 0;
   line-height : 1.4;
 }
+.success {
+  color: #2e7d32;
+  background: #d4edda;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+}

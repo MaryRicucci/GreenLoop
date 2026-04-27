@@ -60,3 +60,18 @@ export function getPremi() {
 export function getStorico() {
   return request("/storico");
 }
+
+//Upload foto
+export async function uploadFoto(missioneId, file) {
+  const formData = new FormData();
+  formData.append("foto", file);
+
+  return fetch(`${BASE_URL}/missioni/${missioneId}/upload`, {
+    method: "POST",
+    credentials: "include",
+    body: formData
+  }).then(async (res) => {
+    if (res.status === 401) return { unauthorized: true };
+    return res.json();
+  });
+}

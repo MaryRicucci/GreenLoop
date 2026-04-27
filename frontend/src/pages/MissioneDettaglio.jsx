@@ -7,6 +7,10 @@ export default function MissioneDettaglio(){
     const {id} = useParams();
     const [missione, setMissione] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [file, setFile] = useState(null);
+    const [uploading, setUploading] = useState(true);
+    const [success, setSuccess] = useState("");
+    const [error, setError] = useState("");
     const {logout} = useAuth();
 
     useEffect(()=>{
@@ -23,6 +27,28 @@ export default function MissioneDettaglio(){
         load();
     },[id]);
 
+    async function handleUpload(){
+        if(!file){
+            setError("Seleziona una foto prima di caricare");
+            return ;
+        }
+        setUploading(true);
+        setError("");
+        setSuccess("");
+        const res = await uploadFoto(id,file);
+        setUploading = false ;
+        if(res.unauthorized){
+            logout();
+            return ;
+        }
+        if(res.success){
+            setError(res.message||"Errore durante l'upload");
+            return ;
+        }
+        setSuccess("Foto caricata con successo");
+    }
+
+
     if(loading) return <div className="loader"></div>
     return (
         <div className="container">
@@ -37,7 +63,15 @@ export default function MissioneDettaglio(){
                 <strong>Stato: </strong>{""}
                 {missione.completata ? "Completata" : "Da completare"}
             </p>
-            <button>Carica foto</button>
+            <h2>Carica foto</h2>
+            <input type="file" accept="image/*" onChange={(e)=>setFile(e.target.files[0])}/>
+            {error && <p className="error">{error}</p>}
+            {success && <p className="success">{success}</p>}
+            {uploading ? (
+                <div className="loader"></div>
+            ): (
+                <button onClick={handleUpload}>Carica foto</button>
+            )}
         </div>
     );
 }
