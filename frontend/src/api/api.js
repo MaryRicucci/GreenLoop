@@ -75,3 +75,7 @@ export async function uploadFoto(missioneId, file) {
     return res.json();
   });
 }
+//Get missioni ccmpletate
+export function getMissioniCompletate(){
+  return request("/missioni/completate");
+}

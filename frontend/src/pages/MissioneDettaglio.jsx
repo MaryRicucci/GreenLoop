@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {getMissione} from "../api/api.js";
 import {useAuth} from "../hooks/useAuth.jsx";
-
+import {useNavigate} from "react-router-dom";
+const navigate = useNavigate();
 export default function MissioneDettaglio(){
     const {id} = useParams();
     const [missione, setMissione] = useState(null);
@@ -46,6 +47,9 @@ export default function MissioneDettaglio(){
             return ;
         }
         setSuccess("Foto caricata con successo");
+        setTimeout(()=>{
+            navigate("/missioni/completate");
+        },1500);
     }
 
 

@@ -42,6 +42,10 @@ export default function App() {
           }
         />
         <Route path="*" element={<Navigate to="/login" />} />
+        <Route path="/missioni-completate" element={ <ProtectedRoute><MissioniCompletate /></ProtectedRoute>
+  }
+/>
+
       </Routes>
     </BrowserRouter>
   );

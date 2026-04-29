@@ -41,22 +41,6 @@ input:focus {
   outline: none;
 }
 
-/* Pulsanti */
-button {
-  padding: 12px;
-  background: #007bff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover {
-  background: #0056c7;
-}
-
 /* Messaggi di errore */
 .error {
   color: #d9534f;
@@ -93,4 +77,42 @@ button:hover {
 
 .quick-links a:hover {
   text-decoration: underline;
+}
+.mission-card img {
+  max-height: 250px;
+  object-fit: cover;
+}
+.error {
+  color: #d9534f;
+  background: #f9d6d5;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.success {
+  color: #2e7d32;
+  background: #d4edda;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+button {
+  padding: 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #0056c7;
 }
