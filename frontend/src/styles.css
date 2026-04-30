@@ -116,3 +116,7 @@ button {
 button:hover {
   background: #0056c7;
 }
+.mission-card img {
+  max-height: 250px;
+  object-fit: cover;
+}

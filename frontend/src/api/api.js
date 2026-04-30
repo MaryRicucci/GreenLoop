@@ -79,3 +79,26 @@ export async function uploadFoto(missioneId, file) {
 export function getMissioniCompletate(){
   return request("/missioni/completate");
 }
+//Get premi
+export function getPremi(){
+  return request("/premi");
+}
+//Get premi/:id
+export async  function getPremio(id){
+  const res = await request("/premi");
+  if(res.unauthorized){
+    return res;
+  }
+  const premio = res.premi?.find(p=>p.id_Premio===id);
+  if(!premio){
+    return {
+      succcess : false ,
+      nessage: "Premio non trovato"
+    };
+  }
+  return {success: true, premio};
+}
+//Riscatta premio
+export function riscattaPremio(id_Premio){
+  return request("/premi/riscatta");
+}

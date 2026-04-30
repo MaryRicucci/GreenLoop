@@ -7,6 +7,8 @@ import Dashboard from "./pages/Dashboard.jsx";
 import {useAuth} from "./hooks/useAuth.jsx";
 import Missioni from "./pages/Missioni.jsx";
 import MissioneDettaglio from "./pages/MissioneDettaglio.jsx";
+import Premi from "./pages/Premi.jsx";
+import RiscattoPremio from "./pages/RiscattoPremio.jsx";
 function ProtectedRoute({children}){
   const {user} = useAuth();
   return user ? children : <Navigate to="/login" />
@@ -45,6 +47,24 @@ export default function App() {
         <Route path="/missioni-completate" element={ <ProtectedRoute><MissioniCompletate /></ProtectedRoute>
   }
 />
+       <Route
+  path="/premi"
+  element={
+    <ProtectedRoute>
+      <Premi />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/premi/:id"
+  element={
+    <ProtectedRoute>
+      <RiscattoPremio />
+    </ProtectedRoute>
+  }
+/>
+
+
 
       </Routes>
     </BrowserRouter>
