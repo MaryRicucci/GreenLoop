@@ -75,7 +75,7 @@ export async function uploadFoto(missioneId, file) {
     return res.json();
   });
 }
-//Get missioni ccmpletate
+
 export function getMissioniCompletate(){
   return request("/missioni/completate");
 }
@@ -101,4 +101,7 @@ export async  function getPremio(id){
 //Riscatta premio
 export function riscattaPremio(id_Premio){
   return request("/premi/riscatta");
+}
+export function getStorico(){
+  return request("/storico");
 }
