@@ -36,6 +36,8 @@ export default function Punti() {
                     <p><strong>Punti totale: </strong>{utente.punti_totali}</p>
                     <p><strong>Punti guadagnati: </strong>{utente.punti_guadagnati}</p>
                     <p><strong>Putni spesi: </strong>{utente.punti_spesi}</p>
+                    <Link to="/storico">
+                    <button>Vedi storico attività</button></Link>
                 </div>
             )}
         </div>
