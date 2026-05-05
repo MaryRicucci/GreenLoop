@@ -76,3 +76,13 @@ create table GreenLoop.Aziende (
     logo_url varchar(255),
     data timestamp
 );
+
+create table GreenLoop.Admin (
+    id int PRIMARY KEY auto_increment ,
+    email varchar (255) not null unique, 
+    password_hash varchar(255) not null
+);
+
+use GreenLoop ;
+
+insert into admin (email, passoword_hash) values ('admin@greenloo.it', SHA2('password123',256));
