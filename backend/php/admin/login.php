@@ -1,5 +1,4 @@
 <?php
-require_once "../config.php";
 
 $data = json_encode(file_get_contents("php://input"),true),
 $email = $data["email"];

@@ -105,3 +105,18 @@ export function riscattaPremio(id_Premio){
 export function getStorico(){
   return request("/storico");
 }
+export function adminGetMissioni(){
+  return request("/admin/missioni/getMissioni");
+}
+export function adminCreaMissione(data){
+  return request("/admin/missioni/creaMissione",{
+    method: "POST",
+    body: data
+  });
+}
+export function adminEliminaMissione(id){
+  return request("/admin/missioni/eliminaMissione",{
+    method: "DELETE",
+    body: {id}
+  });
+}
