@@ -1,6 +1,6 @@
 <?php
 require_once "../middleware.php";
-
+header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"),true);
 $id = intval($data["id"]);
 if($id<=0){
@@ -13,7 +13,7 @@ if($id<=0){
 $db = "GreenLoop";
 $host = "localhost";
 $user = "root";
-$pw  "";
+$pw =  "";
 
 $conn = new mysqli($host,$user, $pw,$db);
 if ($conn -> connect_error){

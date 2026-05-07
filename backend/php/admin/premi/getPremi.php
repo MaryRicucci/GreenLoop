@@ -1,6 +1,6 @@
 <?php
-header("Content-Type: application/json";
-require_once "../adminAuth.php";
+header("Content-Type: application/json");
+require_once "../middleware.php";
 $host = "localhost";
 $db = "GreenLoop" ;
 $user = "root";
@@ -11,8 +11,8 @@ if ($conn -> connect_error) {
   die("Connessione fallita");
 }
 $query = "SELECT * FROM Premi order by id desc" ;
-$conn -> query($query);
-$premi = $conn -> fetch_all(MYQLI_ASSOC);
+$result = $conn -> query($query);
+$premi = $result -> fetch_all(MYSQLI_ASSOC);
 echo json_encode([
   "success" => true,
   "premi" => $premi

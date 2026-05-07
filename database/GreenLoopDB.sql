@@ -34,10 +34,12 @@ create table GreenLoop.Missioni_completate (
 
 create table GreenLoop.Premi (
 	id_Premio int primary key AUTO_INCREMENT,
+    id_Azienda int ,
     nome varchar(100),
     descrizione varchar(255),
     costo int not null,
     qta int not null
+    foreign key(id_Azienda) references Aziende(id_Azienda) ON DELETE CASCADE
 );
 
 create table GreenLoop.Premi_Riscattati (
@@ -71,7 +73,7 @@ create table GreenLoop.Registro_attività (
 
 create table GreenLoop.Aziende (
 	id_Azienda int primary key AUTO_INCREMENT,
-    nome varchar(100) not null,
+    nome varchar(100) not null unique,
     descrizione text,
     logo_url varchar(255),
     data timestamp

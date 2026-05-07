@@ -1,6 +1,6 @@
 <?php
 require_once "../middleware.php";
-
+header("Content-Type: application/json");
 $data = json_decode(file_get_contents("php://input"),true);
 $titolo = $data["titolo"];
 $descrizione = $data["descrizione"];
@@ -28,7 +28,8 @@ $template -> bind_param("ssi",$titolo,$descrizione,$punti);
 $template -> execute();
 
 echo json_encode([
-    "success" => true;
+    "success" => true ,
+    "message" => "Nuova missioni inserita correttamente"
 ]);
 $conn -> close();
 
