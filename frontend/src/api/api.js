@@ -120,3 +120,18 @@ export function adminEliminaMissione(id){
     body: {id}
   });
 }
+export function admimGetMissioniDaValidare(){
+  return request("/admin/validazioni/getDaValidare");
+}
+export function adminApprovaMissione(id){
+  return request("/admin/validazioni/approvaMissione",{
+    method: "POST",
+    body: {id}
+  });
+}
+export function adminRifiutaMissione(id) {
+  return request("/admin/validazioni/rifiutaMission",{
+    method: "POST",
+    body: {id}
+  });
+}

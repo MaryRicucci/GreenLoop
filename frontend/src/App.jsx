@@ -53,7 +53,52 @@ export default function App() {
         <Route path="/premi/:id" element={<ProtectedRoute> <RiscattoPremio /></ProtectedRoute>}/>
         <Route path="/punti" element={<ProtectedRoute><Punti /></ProtectedRoute>}></Route>
         <Route path="/storico" element={<ProtectedRoute><Storico/></ProtectedRoute>}/>
-      </Routes>
+      </Routes><Route path="/admin/login" element={<AdminLogin />} />
+
+<Route 
+  path="/admin/dashboard" 
+  element={
+    <ProtectedRouteAdmin>
+      <AdminDashboard />
+    </ProtectedRouteAdmin>
+  }
+/>
+
+<Route 
+  path="/admin/missioni" 
+  element={
+    <ProtectedRouteAdmin>
+      <AdminMissioni />
+    </ProtectedRouteAdmin>
+  }
+/>
+
+<Route 
+  path="/admin/premi" 
+  element={
+    <ProtectedRouteAdmin>
+      <AdminPremi />
+    </ProtectedRouteAdmin>
+  }
+/>
+
+<Route 
+  path="/admin/validazioni" 
+  element={
+    <ProtectedRouteAdmin>
+      <AdminValidazioni />
+    </ProtectedRouteAdmin>
+  }
+/>
+<Route 
+  path="/admin/missioni" 
+  element={
+    <ProtectedRouteAdmin>
+      <AdminMissioni />
+    </ProtectedRouteAdmin>
+  }
+/>
+
     </BrowserRouter>
   );
 }

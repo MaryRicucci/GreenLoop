@@ -85,6 +85,19 @@ create table GreenLoop.Admin (
     password_hash varchar(255) not null
 );
 
+create table GreenLoop.Missioni_svolte (
+    id int primary key auto_increment, 
+    id_Utente int not null ,
+    id_Missione int not null ,
+    foto varchar(255) not null ,
+    punti int not null ,
+    stato enum ('in_attesa','approvata','rifiutata') default 'in_attesa';
+    data timestamp default current_timestamp
+
+    foreign key (id_Utente) references Utenti (id_Utente);
+    foreign key (id_Missione) references Missioni (id_Missione);
+)
+
 use GreenLoop ;
 
 insert into admin (email, passoword_hash) values ('admin@greenloo.it', SHA2('password123',256));
