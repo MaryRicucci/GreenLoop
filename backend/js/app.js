@@ -162,6 +162,13 @@ app.get("/missioni/completate",async(req,res)=>{
     const data = await response.json();
     res.json(data);
 });
+//GET utente/saldo
+router.get("/saldo", async (req, res) => {
+  const userId = req.user.id; 
+  const utente = await User.findById(userId);
+  res.json({ saldo: utente.saldo });
+});
+
 //POST /missioni/completa
 app.post("/missioni/completa",upload.single("foto"),async (req,res)=>{
     try {
