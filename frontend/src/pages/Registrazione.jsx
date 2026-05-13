@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "../styles/button.css";
 export default function Registrazione() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -99,7 +99,7 @@ export default function Registrazione() {
 
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <button type="submit">Registrati</button>
+        <button className="btn-greenloop" type="submit">Registrati</button>
       </form>
     </div>
   );

@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import {getMissione} from "../api/api.js";
 import {useAuth} from "../hooks/useAuth.jsx";
 import {useNavigate} from "react-router-dom";
+import "../styles/button.css";
 const navigate = useNavigate();
 export default function MissioneDettaglio(){
     const {id} = useParams();
@@ -74,7 +75,7 @@ export default function MissioneDettaglio(){
             {uploading ? (
                 <div className="loader"></div>
             ): (
-                <button onClick={handleUpload}>Carica foto</button>
+                <button className="btn-greenloop" onClick={handleUpload}>Carica foto</button>
             )}
         </div>
     );

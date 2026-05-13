@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { adminGetPremi, adminCreaPremio, adminEliminaPremio } from "../../api/api.js";
-
+import "../styles/button.css";
 export default function AdminPremi() {
   const [premi, setPremi] = useState([]);
   const [titolo, setTitolo] = useState("");
@@ -30,14 +30,14 @@ export default function AdminPremi() {
       <div className="form">
         <input placeholder="Titolo" onChange={e => setTitolo(e.target.value)} />
         <input placeholder="Descrizione" onChange={e => setDescrizione(e.target.value)} />
-        <button onClick={crea}>Crea Premio</button>
+        <button className="btn-greenloop" onClick={crea}>Crea Premio</button>
       </div>
 
       {premi.map(p => (
         <div key={p.id_Premio} className="card">
           <h3>{p.titolo}</h3>
           <p>{p.descrizione}</p>
-          <button onClick={() => elimina(p.id_Premio)} className="danger">Elimina</button>
+          <button className="btn-greenloop" onClick={() => elimina(p.id_Premio)} className="danger">Elimina</button>
         </div>
       ))}
     </div>

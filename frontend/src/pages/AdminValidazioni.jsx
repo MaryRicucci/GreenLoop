@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import { admimGetMissioniDaValidare, adminApprovaMissione, adminRifiutaMissione } from "../api/api";
-
+import "../styles/button.css";
 export default function AdminValidazioni() {
     const [missioni, setMissioni] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -33,7 +33,7 @@ export default function AdminValidazioni() {
                     <p><strong>Punti: </strong>{m.punti}</p>
                     <img src={m.foto} alt="prova" className="mission-img"/>
 
-                    <div className="btn-row"> 
+                    <div className="btn-greenloop"> 
                         <button onclick={()=>approva(m.id)}>Approva</button>
                         <button onclick={()=>rifiuta(m.id)} className="danger">Rifiuta</button>
                     </div>

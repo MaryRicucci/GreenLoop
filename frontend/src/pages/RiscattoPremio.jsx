@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import {getPremio, riscattaPremio} from "../api/api.js";
 import {useAuth} from "../hooks/useAuth.jsx";
-
+import "../styles/button.css";
 export default function RiscattoPremio(){
     const {id} = useParams();
     const navigate = useNavigate();
@@ -74,7 +74,7 @@ export default function RiscattoPremio(){
             {processing ? (
                 <div className="loader"></div>
             ): (
-                <button onClick={handleRiscatto}>Conferma riscatto</button>
+                <button className="btn-greenloop" onClick={handleRiscatto}>Conferma riscatto</button>
             )}
         </div>
     )

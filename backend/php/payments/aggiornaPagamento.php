@@ -29,8 +29,13 @@ $template = $conn -> prepare($query);
 $template-> bind_param("i",$id_Pagamento);
 $template -> execute();
 if($stato==="success"){
-    
+    $id_Utente = $_SESSION["id_Utente"];
+    $query = "UPDATE Utenti set punti = 0 where id_Utente=?";
+    $template = prepare($query);
+    $template -> bind_param($query);
+    $template -> execute();
 }
+echo json_encode(["success" => true])
 
-
+$conn -> close();
 ?>

@@ -1,0 +1,45 @@
+.btn-greenloop {
+  background-color: #2ecc71;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover */
+.btn-greenloop:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+}
+
+/* Disabled */
+.btn-greenloop:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Variante outline */
+.btn-greenloop-outline {
+  background-color: transparent;
+  border: 2px solid #2ecc71;
+  color: #2ecc71;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-greenloop-outline:hover {
+  background-color: #2ecc71;
+  color: white;
+}

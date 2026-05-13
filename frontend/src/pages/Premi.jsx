@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {getPremi} from "../api/api.js";
 import {useAuth} from "../hooks/useAuth.jsx";
-
+import "../styles/button.css";
 export default function Premi ()  {
     const [premi, setPremi] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -51,7 +51,7 @@ export default function Premi ()  {
                 <p>{p.descrizione}</p>
                 <p><strong>Punti richiesti: </strong>{p.punti}</p>
                 <Link to={'/premi/${p.id_Premio}'}>
-                    <button>Riscatta</button>
+                    <button className="btn-greenloop">Riscatta</button>
                 </Link>
                 </div>
             })}

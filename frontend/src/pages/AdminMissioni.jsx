@@ -1,6 +1,6 @@
 import {useEffect,useState} from "react";
 import { adminGetMissioni, adminCreaMissione, adminEliminaMissione } from "../api/api";
-
+import "../styles/button.css";
 export default function AdminMissioni(){
     const [missioni, setMissioni] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -50,7 +50,7 @@ export default function AdminMissioni(){
                 <input placeholder="Titolo" value={titolo} onChange={e=>setTitolo(e.target.value)}></input>
                 <textarea placeholder="Descrizione" value={descrizione} onChange={e=>setDescrizione(e.target.value)}/>
                 <input placeholder="Punti" type="number" value={punti} onChange={e=>setPunti(e.target.value)}/>
-                <button onClick={crea}>Crea missione</button>
+                <button className="btn-GreenLoop" onClick={crea}>Crea missione</button>
             </div>
             <h2>Missioni esistenti</h2>
             {missioni.map(m=>(
@@ -58,7 +58,7 @@ export default function AdminMissioni(){
                     <h3>{m.titolo}</h3>
                     <p>{m.descrizione}</p>
                     <p><strong>Punti: </strong>{m.punti}</p>
-                    <button onClick={()=> elimina(m.id)}>Elimina</button>
+                    <button className="btn-GreenLoop"onClick={()=> elimina(m.id)}>Elimina</button>
                 </div>
             ))}
         </div>

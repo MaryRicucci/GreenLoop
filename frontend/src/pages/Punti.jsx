@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {useAuth} from "../hooks/useAuth.jsx";
 import {getMe} from "../api/api.js";
-
+import "../styles/button.css";
 export default function Punti() {
     const [utente, setUtente] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -37,7 +37,7 @@ export default function Punti() {
                     <p><strong>Punti guadagnati: </strong>{utente.punti_guadagnati}</p>
                     <p><strong>Putni spesi: </strong>{utente.punti_spesi}</p>
                     <Link to="/storico">
-                    <button>Vedi storico attività</button></Link>
+                    <button className="btn-greenloop">Vedi storico attività</button></Link>
                 </div>
             )}
         </div>

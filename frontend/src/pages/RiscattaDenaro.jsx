@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-
+import "../styles/button.css";
 export default function RiscattaDenaro() {
     const [metodo, setMetodo] = useState("");
     const [importo, setImporto] = useState(0);
@@ -54,7 +54,7 @@ export default function RiscattaDenaro() {
                 />
                 Ricevi con Satispay
             </label>
-            <button onClick={riscatta}>Ricevi denaro</button>
+            <button className="btn-greenloop" onClick={riscatta}>Ricevi denaro</button>
             {errore && <p style={{color: "red"}}>{errore}</p>}
         </div>
     );

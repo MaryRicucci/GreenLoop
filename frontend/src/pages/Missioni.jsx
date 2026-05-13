@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {getMissioni} from "../api/api.js";
 import {useAuth} from "../hooks/useAuth.js";
-
+import "../styles/button.css";
 export default function Missioni() {
     const [missioni, setMissioni] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -40,7 +40,7 @@ export default function Missioni() {
                     {m.completata ? "Completata" : "Da completare"}</p>
 
                     <Link to={'/missioni/${m.id}'}>
-                    <button>Dettagli</button>
+                    <button className="btn-greenloop">Dettagli</button>
                     </Link>
                 </div>
             ))}

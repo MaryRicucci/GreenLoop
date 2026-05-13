@@ -4,11 +4,9 @@ import cors from "cors";
 import multer from "multer";
 import FormData from "form-data";
 import rateLimit from "express-rate-limit";
-
 const app = express();
 const upload = multer();
 const base = "http://localhost/GreenLoop/backend/php";
-
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -162,13 +160,6 @@ app.get("/missioni/completate",async(req,res)=>{
     const data = await response.json();
     res.json(data);
 });
-//GET utente/saldo
-router.get("/saldo", async (req, res) => {
-  const userId = req.user.id; 
-  const utente = await User.findById(userId);
-  res.json({ saldo: utente.saldo });
-});
-
 //POST /missioni/completa
 app.post("/missioni/completa",upload.single("foto"),async (req,res)=>{
     try {
@@ -233,16 +224,27 @@ app.get("/storico",async (req,res)=>{
 });
 //POST /pagamenti crea
 app.post("/pagamenti/crea",async(req,res)=>{
-    const response = await fetch(base+"/payments/creaPagamento.php",{
-        method : "POST" ,
-        headers : {
-            "Content-Type" : "application/x-www-form-urlencoded" ,
-            cookie : req.headers.cookie || "" 
-        },
-        body : new URLSearchParams(req.body)
-    });
-   const data = await response.json();
-    res.json(data);
+    const {amount, metodo} = req.body;
+    try {
+        let ordine;
+        if(metodo==="paypal"){
+            ordine = await creaOrdinePayPal(amount);
+        }
+        else if(metodo==="satispay"){
+            ordine = await creaOrdineSatispay(amount);
+        }
+        res.json({
+            success: true,
+            orderId : ordine.id,
+            metodo
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            success: false, 
+            error: err.message
+        });
+    }
 });
 //POST /pagamenti/verifica
 app.post("/pagamenti/verifica",async(req,res)=>{
@@ -264,6 +266,19 @@ app.post("/pagamenti/verifica",async(req,res)=>{
         })
     });
     const data = await response.json();
+    if(data.success && data.stato==="success"){
+        await fetch(base+"/payments/aggiornaPagamento.php",{
+            method: "POST",
+            headers: {
+                "Content-Type": "applicationn/x-www-form-urlencoded",
+                cookie: req.headers.cookie || ""
+            },
+            body: new URLSearchParams({
+                id_Pagamento: req.body.id_Pagamento,
+                stato: "success"
+            })
+        });
+    }
     return res.json(data);
 }catch(error){
     console.error("Errore verifica pagamento: ", error);
@@ -272,6 +287,24 @@ app.post("/pagamenti/verifica",async(req,res)=>{
         message : "Errore del server durante la verifica del pagamento"
     })
 }
+});
+app.get("/pagamenti/saldo",async(req,res)=>{
+    const response = await fetch(base+"/payments/calcolaSaldo.php",{
+        method: "GET",
+        headers: {
+            cookie: req.headers.cookie || ""
+        }
+    });
+    res.json(await response.json());
+});
+app.get("/pagamenti/storico",async (req,res)=>{
+    const response = await fetch(base+"/payments/storicoPagamenti.php",{
+        method: "GET",
+        header: {
+            cookie: req.headers.cookie || ""
+        }
+    });
+    res.json(await response.json());
 })
 //POST logout
 app.post("/logout",async(req,res)=>{

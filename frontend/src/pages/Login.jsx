@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-
+import "../styles/button.css";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -81,7 +81,7 @@ export default function Login() {
 
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        <button type="submit">Accedi</button>
+        <button className="btn-greenloop" type="submit">Accedi</button>
       </form>
     </div>
   );

@@ -11,6 +11,7 @@ import Premi from "./pages/Premi.jsx";
 import RiscattoPremio from "./pages/RiscattoPremio.jsx";
 import Punti from "./pages/Punti.jsx";
 import Storico from "./pages/Storico.jsx";
+import "./styles/button.css";
 function ProtectedRoute({children}){
   const {user} = useAuth();
   return user ? children : <Navigate to="/login" />

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { adminLogin } from "../../api/api.js";
-
+import "../styles/button.css";
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +40,7 @@ export default function AdminLogin() {
           onChange={e => setPassword(e.target.value)}
         />
 
-        <button type="submit">Accedi</button>
+        <button className="btn-greenloop" type="submit">Accedi</button>
       </form>
     </div>
   );
